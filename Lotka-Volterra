@@ -1,0 +1,25 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Grid points
+xs = np.arange(0, 2.5, 0.2)
+ys = np.arange(0, 2.5, 0.2)
+Xs, Ys = np.meshgrid(xs, ys)
+
+# Lotta-Volterra equations
+def lotta_volterra(x, y):
+    dx = 0.6 * x - 0.7 * x * y
+    dy = -y + x * y
+    return dx, dy
+
+# Vector field components
+Us, Vs = lotta_volterra(Xs, Ys)
+
+# Plot of the vector field
+plt.figure(figsize=(10, 8))
+plt.quiver(Xs, Ys, Us, Vs)
+plt.title('Vector Field of the Lotta-Volterra Equation', fontsize=12)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid()
+plt.show()
