@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Logistic map function
+def logistic_map(r, x):
+    return r * x * (1 - x)
+
+# Parameters
+num_iterations = 1000
+last_iterations = 100
+r_values = np.linspace(2.5, 4.0, 10000)
+x = 1e-5 * np.ones(r_values.shape)
+
+# Initializing a list to store the bifurcation points
+bifurcation_points = [3, 3.449, 3.54409, 3.5644, 3.5687]
+
+# Creating the bifurcation diagram
+plt.figure(figsize=(12, 8))
+
+# Iteration through each r value
+for i in range(num_iterations):
+    x = logistic_map(r_values, x)
+    if i >= (num_iterations - last_iterations):
+        plt.plot(r_values, x, ',k', alpha=0.25)
+
+# Highlighting the bifurcation points
+for bifurcation_point in bifurcation_points:
+    plt.axvline(x=bifurcation_point, color='r', linestyle='--', lw=1)
+
+# Labeling the bifurcation points
+for bifurcation_point in bifurcation_points:
+    plt.text(bifurcation_point, 0.5, f'{bifurcation_point}', color='r', ha='right', va='bottom')
+
+
+plt.title("Bifurcation Diagram of the Logistic Map")
+plt.xlabel("Parameter $r$")
+plt.ylabel("Population $x$")
+plt.show()
