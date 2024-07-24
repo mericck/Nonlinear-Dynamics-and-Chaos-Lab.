@@ -1,0 +1,42 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# logistic map function
+def logistic_map(r, x):
+    return r * x * (1 - x)
+
+# parameters
+num_iterations = 1000
+r_values = np.linspace(2.5, 4.0, 10000)
+x = 1e-5 * np.ones(r_values.shape)
+
+#  array to store Lyapunov exponents
+lyapunov_exponents = np.zeros(r_values.shape)
+
+# Iteration through each r value
+for i in range(num_iterations):
+    x = logistic_map(r_values, x)
+    lyapunov_exponents += np.log(abs(r_values - 2 * r_values * x))
+
+# Average of the Lyapunov exponents over the number of iterations
+lyapunov_exponents = lyapunov_exponents / num_iterations
+
+# bifurcation points
+bifurcation_points = [3, 3.449, 3.54409, 3.5644, 3.5687]
+
+# Lyapunov exponents
+plt.figure(figsize=(12, 8))
+plt.plot(r_values, lyapunov_exponents, 'b', lw=0.5)
+
+# bifurcation points
+for bifurcation_point in bifurcation_points:
+    plt.axvline(x=bifurcation_point, color='r', linestyle='--', lw=1)
+
+plt.title("Lyapunov Exponents of the Logistic Map")
+plt.xlabel("Parameter $r$")
+plt.ylabel("Lyapunov Exponent $\lambda$")
+
+# horizontal line at Lyapunov exponent = 0
+plt.axhline(y=0, color='k', linestyle='--', lw=0.5)
+
+plt.show()
