@@ -1,0 +1,35 @@
+# Last question first part we can see the change of vector field as we change the parameters
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+h = 1
+a = 0.5
+
+# Differential equation
+def f(x):
+    return x * (1 - x) - (h * x) / (a + x)
+
+
+x_vals = np.linspace(0, 5, 200)
+f_vals = f(x_vals)
+
+# The nullcline
+plt.plot(x_vals, f_vals, label='$\dot{x} = 0$')
+
+# Vector field
+X = np.linspace(0, 5, 20)
+U = np.ones_like(X)
+V = f(X)
+
+plt.quiver(X, np.zeros_like(X), U, V, angles='xy', scale_units='xy', scale=1, color='r')
+
+
+plt.axhline(0, color='black', linewidth=0.5)
+plt.axvline(0, color='black', linewidth=0.5)
+plt.xlabel('$x$')
+plt.ylabel('$\dot{x}$')
+plt.title('Phase Plane')
+plt.legend()
+plt.grid(True)
+plt.show()
