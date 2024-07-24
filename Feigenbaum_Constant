@@ -1,0 +1,16 @@
+# List of bifurcation points
+bifurcation_points = [3, 3.449, 3.54409, 3.5644, 3.5687]
+
+# Calculating the intervals between successive bifurcation points
+intervals = [bifurcation_points[i+1] - bifurcation_points[i] for i in range(len(bifurcation_points)-1)]
+
+# Calculating the Feigenbaum constants for successive pairs of intervals
+feigenbaum_constants = [intervals[i] / intervals[i+1] for i in range(len(intervals)-1)]
+
+# Calculated Feigenbaum constants
+print("Intervals between successive bifurcation points:", intervals)
+print("Calculated Feigenbaum constants:", feigenbaum_constants)
+
+# Estimation of the Feigenbaum constant (as the average of calculated constants)
+feigenbaum_constant_estimate = np.mean(feigenbaum_constants)
+print("Estimated Feigenbaum constant:", feigenbaum_constant_estimate)
