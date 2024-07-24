@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import fsolve
+
+# Differential equation
+def f(x, beta):
+    return -x + beta * np.tanh(x)
+
+# Function to finding fixed point
+def find_fixed_points(beta):
+    fixed_points = fsolve(f, [-4, 0, 4], args=(beta))
+    return fixed_points
+
+# Range of beta values
+beta_values = np.linspace(0, 4, 400)
+
+# Storing fixed points for each beta
+fixed_points_list = []
+
+# Calculating fixed points for each beta
+for beta in beta_values:
+    fixed_points = find_fixed_points(beta)
+    fixed_points_list.append(fixed_points)
+
+# Converting list to numpy array for easy plotting
+fixed_points_array = np.array(fixed_points_list)
+
+# Plotting the bifurcation diagram
+plt.figure(figsize=(10, 6))
+for i in range(fixed_points_array.shape[1]):
+    plt.plot(beta_values, fixed_points_array[:, i], 'b.', markersize=1)
+
+plt.xlim(0, 4)
+plt.ylim(-4, 4)
+plt.xlabel(r'$\beta$')
+plt.ylabel(r'Fixed points $x$')
+plt.title(r'Bifurcation diagram of $\dot{x} = -x + \beta \tanh(x)$')
+plt.grid(True)
+plt.show()
