@@ -1,0 +1,45 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# differential equation
+def f(x):
+    return np.sin(x)
+
+# RK4 method
+def rk4_step(x, h):
+    k1 = h * f(x)
+    k2 = h * f(x + 0.5 * k1)
+    k3 = h * f(x + 0.5 * k2)
+    k4 = h * f(x + k3)
+    return x + (k1 + 2*k2 + 2*k3 + k4) / 6
+
+# Parameters
+h = 0.01  # step size
+t_final = 10  # final time
+n_steps = int(t_final / h)  # number of steps
+
+# Initial conditions between 0 and 16
+initial_conditions = np.linspace(0, 16, 24)  # 24 initial conditions
+
+# Simulation and plot
+plt.figure(figsize=(12, 8))
+
+for x0 in initial_conditions:
+    t_values = np.arange(0, t_final, h)
+    x_values = np.zeros(n_steps)
+    x_values[0] = x0
+
+    for i in range(1, n_steps):
+        x_values[i] = rk4_step(x_values[i-1], h)
+
+    plt.plot(t_values, x_values, label=f"x0 = {x0:.2f}")
+
+# Horizontal lines at fixed points
+for n in range(6):  # Considering fixed points up to 5π
+    plt.axhline(n * np.pi, color='gray', linestyle='--', label=f'{n}π' if n == 0 else None)
+
+plt.xlabel('Time')
+plt.ylabel('x(t)')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.title('Stability of Fixed Points for $\dot{x} = \sin(x)$ using RK4')
+plt.show()
